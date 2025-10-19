@@ -14,7 +14,7 @@ import com.pricingservice.dto.PricingRequestDto;
 public class HelloController {
 
 	@PostMapping
-	public PricingRequestDto calculate(@Valid @RequestBody PricingRequestDto requestDTO){
+	public PricingRequestDto calculate(@Valid @RequestBody PricingRequestDto requestDTO) {
 
 		return requestDTO;
 	}
