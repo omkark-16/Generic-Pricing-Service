@@ -1,7 +1,10 @@
 package com.pricingservice.controller;
 
+import com.pricingservice.dto.PricingResponseDto;
+import com.pricingservice.service.PricingService;
 import jakarta.validation.Valid;
-import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -13,10 +16,19 @@ import com.pricingservice.dto.PricingRequestDto;
 @RequestMapping("/api/v1/calculate")
 public class HelloController {
 
-	@PostMapping
-	public PricingRequestDto calculate(@Valid @RequestBody PricingRequestDto requestDTO) {
+	@Autowired
+	private PricingService pricingService;
 
-		return requestDTO;
+	public HelloController(PricingService pricingService){
+		this.pricingService=pricingService;
+	}
+
+	@PostMapping
+	public ResponseEntity<PricingResponseDto> calculate(@Valid @RequestBody PricingRequestDto requestDTO) {
+
+		PricingResponseDto response = pricingService.calculateTotal(requestDTO);
+		return ResponseEntity.ok(response); // Returns 200 OK with the response body
+
 	}
 
 }
