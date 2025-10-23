@@ -17,7 +17,7 @@ public class SecurityConfig {
                         .requestMatchers("/pricing/**").hasAuthority("SCOPE_pricing.read")
                         .anyRequest().authenticated()
                 )
-                .oauth2ResourceServer(oauth2 -> oauth2.jwt(Customizer.withDefaults())); // ✅ non-deprecated
+                .oauth2ResourceServer(oauth2 -> oauth2.jwt(Customizer.withDefaults()));  
 
         return http.build();
     }

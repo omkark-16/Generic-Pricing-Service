@@ -24,4 +24,6 @@ public class PricingStrategyFactory {
     public List<PricingStrategy> getAllStrategies() {
         return List.copyOf(strategyMap.values());
     }
+    
+
 }
