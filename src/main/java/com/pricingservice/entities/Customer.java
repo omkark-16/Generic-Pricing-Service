@@ -34,4 +34,65 @@ public class Customer {
 	@Column(name = "metadata", columnDefinition = "jsonb")
 	private String metadata;
 
+	public Customer() {
+	};
+
+	public Customer(Long id, String name, String tier, String email, LocalDateTime joinedAt, String metadata) {
+		super();
+		this.id = id;
+		this.name = name;
+		this.tier = tier;
+		this.email = email;
+		this.joinedAt = joinedAt;
+		this.metadata = metadata;
+	}
+
+	public Long getId() {
+		return id;
+	}
+
+	public void setId(Long id) {
+		this.id = id;
+	}
+
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	public String getTier() {
+		return tier;
+	}
+
+	public void setTier(String tier) {
+		this.tier = tier;
+	}
+
+	public String getEmail() {
+		return email;
+	}
+
+	public void setEmail(String email) {
+		this.email = email;
+	}
+
+	public LocalDateTime getJoinedAt() {
+		return joinedAt;
+	}
+
+	public void setJoinedAt(LocalDateTime joinedAt) {
+		this.joinedAt = joinedAt;
+	}
+
+	public String getMetadata() {
+		return metadata;
+	}
+
+	public void setMetadata(String metadata) {
+		this.metadata = metadata;
+	}
+
 }

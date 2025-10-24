@@ -13,14 +13,33 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class Rules {
-	
-	
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
-	
-	
-	
+
+	@Column(name = "rule_name", nullable = false)
+	private String ruleName;
+
+	@Column(name = "priority", nullable = false)
+	private Integer priority;
+
+	@Column(name = "strategy_key", nullable = false)
+	private String strategyKey;
+
+	@Column(name = "active_from")
+	private LocalDateTime activeFrom;
+
+	@Column(name = "active_until")
+	private LocalDateTime activeUntil;
+
+	@Column(name = "conditions", columnDefinition = "jsonb")
+	private String conditions;
+	@Column(name = "parameters", columnDefinition = "jsonb")
+	private String parameters;
+
+	@Column(name = "region")
+	private String region;
 
 	public Rules(Long id, String ruleName, Integer priority, String strategyKey, LocalDateTime activeFrom,
 			LocalDateTime activeUntil, String conditions, String parameters, String region) {
@@ -35,8 +54,9 @@ public class Rules {
 		this.parameters = parameters;
 		this.region = region;
 	}
-	
-	public Rules() {};
+
+	public Rules() {
+	};
 
 	public Long getId() {
 		return id;
@@ -109,28 +129,5 @@ public class Rules {
 	public void setRegion(String region) {
 		this.region = region;
 	}
-
-	@Column(name = "rule_name", nullable = false)
-	private String ruleName;
-
-	@Column(name = "priority", nullable = false)
-	private Integer priority;
-
-	@Column(name = "strategy_key", nullable = false)
-	private String strategyKey;
-
-	@Column(name = "active_from")
-	private LocalDateTime activeFrom;
-
-	@Column(name = "active_until")
-	private LocalDateTime activeUntil;
-
-	@Column(name = "conditions", columnDefinition = "jsonb")
-	private String conditions;
-	@Column(name = "parameters", columnDefinition = "jsonb")
-	private String parameters;
-
-	@Column(name = "region")
-	private String region;
 
 }

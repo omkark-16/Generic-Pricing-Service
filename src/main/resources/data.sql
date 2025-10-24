@@ -1,71 +1,266 @@
+-- 
+----INSERT INTO rules (rule_name, priority, strategy_key, active_from, active_until, conditions, parameters, region)
+----VALUES 
+----('Diwali Offer', 1, 'FESTIVAL_DISCOUNT', '2025-10-01', '2025-10-31', '{"category":"Electronics"}', '{"festivalDiscount":10}', 'IN'),
+----('Seasonal Offer', 2, 'SEASONAL_DISCOUNT', '2025-09-01', '2025-12-31', '{"category":"Electronics"}', '{"seasonalDiscount":5}', 'IN'),
+----('Stock Clearance', 3, 'CLEARANCE_DISCOUNT', '2025-10-15', '2025-10-25', '{"category":"Electronics"}', '{"clearanceDiscount":20}', 'IN'),
+----('Gold Member', 4, 'MEMBERSHIP_DISCOUNT', '2025-01-01', '2025-12-31', '{"tier":"GOLD"}', '{"membershipTier":"GOLD"}', 'IN'),
+----('Referral Bonus', 5, 'REFERRAL_DISCOUNT', '2025-01-01', '2025-12-31', '{"referred":true}', '{"isReferred":true}', 'IN');
+--
+----INSERT INTO rules (rule_name, priority, strategy_key, active_from, active_until, conditions, parameters, region)
+----VALUES ('Diwali Offer', 1, 'FESTIVAL_DISCOUNT', '2025-10-01', '2025-10-31', '{"category":"Electronics"}', '{"festivalDiscount":10}', 'IN'),
+----       ('Seasonal Offer', 2, 'SEASONAL_DISCOUNT', '2025-09-01', '2025-12-31', '{"category":"Electronics"}', '{"seasonalDiscount":5}', 'IN'),
+----       ('Stock Clearance', 3, 'CLEARANCE_DISCOUNT', '2025-10-15', '2025-10-25', '{"category":"Electronics"}', '{"clearanceDiscount":20}', 'IN'),
+----       ('Gold Member', 4, 'MEMBERSHIP_DISCOUNT', '2025-01-01', '2025-12-31', '{"tier":"GOLD"}', '{"membershipTier":"GOLD"}', 'IN'),
+----       ('Referral Bonus', 5, 'REFERRAL_DISCOUNT', '2025-01-01', '2025-12-31', '{"referred":true}', '{"isReferred":true}', 'IN');
+--
+----INSERT INTO products (id, product_code, product_name, base_price, currency, product_category, available_stock)
+----VALUES (1, 'iphone17', 'iPhone 17', 15000, 'INR', 'Electronics', 100);
+-- 
+----INSERT INTO customers (id, name, tier, email, joined_at, metadata)
+----VALUES (101, 'Omkar', 'PRIME', 'omkar@example.com', '2024-01-01 00:00:00', '{"region":"IN"}');
+--
+--
+---- 1. Festival Discount Strategy (e.g. Diwali Offer)
 --INSERT INTO rules (rule_name, priority, strategy_key, active_from, active_until, conditions, parameters, region)
---VALUES ('Diwali Offer', 10, 'FestivalPricingStrategy', '2025-10-01 00:00:00', '2025-10-31 23:59:59',
---        '{"category":"Electronics"}', '{"discountPercentage":20}', 'IN');
-
+--VALUES ('Diwali Offer', 1, 'FESTIVAL_DISCOUNT', '2025-10-01', '2025-10-31', '{"category":"Electronics"}', '{"festivalDiscount":10}', 'IN');
+--
+---- 2. Seasonal Discount Strategy
 --INSERT INTO rules (rule_name, priority, strategy_key, active_from, active_until, conditions, parameters, region)
---VALUES ('Diwali Offer', 1, 'FESTIVAL_DISCOUNT', '2025-10-01', '2025-10-31', '{"category":"Electronics"}', '{"festivalDiscount":10}', 'IN'),
---       ('Seasonal Offer', 2, 'SEASONAL_DISCOUNT', '2025-09-01', '2025-12-31', '{"category":"Electronics"}', '{"seasonalDiscount":5}', 'IN'),
---       ('Stock Clearance', 3, 'CLEARANCE_DISCOUNT', '2025-10-15', '2025-10-25', '{"category":"Electronics"}', '{"clearanceDiscount":20}', 'IN'),
---       ('Gold Member', 4, 'MEMBERSHIP_DISCOUNT', '2025-01-01', '2025-12-31', '{"tier":"GOLD"}', '{"membershipTier":"GOLD"}', 'IN'),
---       ('Referral Bonus', 5, 'REFERRAL_DISCOUNT', '2025-01-01', '2025-12-31', '{"referred":true}', '{"isReferred":true}', 'IN');
-
---INSERT INTO products (id, product_code, product_name, base_price, currency, product_category, available_stock)
---VALUES (1, 'iphone17', 'iPhone 17', 15000, 'INR', 'Electronics', 100);
+--VALUES ('Winter Sale', 2, 'SEASONAL_DISCOUNT', '2025-12-01', '2026-02-28', '{"category":"Clothing"}', '{"seasonalDiscount":15}', 'IN');
 --
---INSERT INTO customers (id, name, tier, email, joined_at, metadata)
---VALUES (101, 'Omkar', 'PRIME', 'omkar@example.com', '2024-01-01 00:00:00', '{"region":"IN"}');
-
-
--- 1. Festival Discount Strategy (e.g. Diwali Offer)
-INSERT INTO rules (rule_name, priority, strategy_key, active_from, active_until, conditions, parameters, region)
-VALUES ('Diwali Offer', 1, 'FESTIVAL_DISCOUNT', '2025-10-01', '2025-10-31', '{"category":"Electronics"}', '{"festivalDiscount":10}', 'IN');
-
--- 2. Seasonal Discount Strategy
-INSERT INTO rules (rule_name, priority, strategy_key, active_from, active_until, conditions, parameters, region)
-VALUES ('Winter Sale', 2, 'SEASONAL_DISCOUNT', '2025-12-01', '2026-02-28', '{"category":"Clothing"}', '{"seasonalDiscount":15}', 'IN');
-
--- 3. Clearance Discount Strategy
-INSERT INTO rules (rule_name, priority, strategy_key, active_from, active_until, conditions, parameters, region)
-VALUES ('Stock Clearance', 3, 'CLEARANCE_DISCOUNT', '2025-10-15', '2025-10-25', '{"category":"Electronics"}', '{"clearanceDiscount":20}', 'IN');
-
--- 4. New Product Introduction Strategy
-INSERT INTO rules (rule_name, priority, strategy_key, active_from, active_until, conditions, parameters, region)
-VALUES ('New Launch Offer', 4, 'NEW_PRODUCT_INTRO', '2025-11-01', '2025-12-15', '{"category":"Gadgets"}', '{"introDiscount":8}', 'IN');
-
--- 5. Volume Based Strategy
-INSERT INTO rules (rule_name, priority, strategy_key, active_from, active_until, conditions, parameters, region)
-VALUES ('Bulk Purchase Offer', 5, 'VOLUME_BASED_DISCOUNT', '2025-01-01', '2025-12-31', '{"minQuantity":5}', '{"volumeDiscount":12}', 'IN');
-
--- 6. Loyalty Strategy
-INSERT INTO rules (rule_name, priority, strategy_key, active_from, active_until, conditions, parameters, region)
-VALUES ('Loyalty Customer Offer', 6, 'LOYALTY_DISCOUNT', '2025-01-01', '2025-12-31', '{"customerType":"LOYAL"}', '{"loyaltyDiscount":10}', 'IN');
-
--- 7. Loyalty Points Strategy
-INSERT INTO rules (rule_name, priority, strategy_key, active_from, active_until, conditions, parameters, region)
-VALUES ('Loyalty Points Redemption', 7, 'LOYALTY_POINTS_DISCOUNT', '2025-01-01', '2025-12-31', '{"hasPoints":true}', '{"pointsValue":200}', 'IN');
-
--- 8. Membership Strategy
-INSERT INTO rules (rule_name, priority, strategy_key, active_from, active_until, conditions, parameters, region)
-VALUES ('Gold Membership Discount', 8, 'MEMBERSHIP_DISCOUNT', '2025-01-01', '2025-12-31', '{"tier":"GOLD"}', '{"membershipDiscount":15}', 'IN');
-
--- 9. Referral Strategy
-INSERT INTO rules (rule_name, priority, strategy_key, active_from, active_until, conditions, parameters, region)
-VALUES ('Referral Bonus', 9, 'REFERRAL_DISCOUNT', '2025-01-01', '2025-12-31', '{"referred":true}', '{"referralDiscount":5}', 'IN');
-
--- 10. Festival + Membership Combined Strategy (example composite rule)
-INSERT INTO rules (rule_name, priority, strategy_key, active_from, active_until, conditions, parameters, region)
-VALUES ('Diwali Gold Combo Offer', 10, 'FESTIVAL_MEMBERSHIP_COMBO', '2025-10-01', '2025-10-31', '{"tier":"GOLD","category":"Electronics"}', '{"comboDiscount":20}', 'IN');
-
+---- 3. Clearance Discount Strategy
+--INSERT INTO rules (rule_name, priority, strategy_key, active_from, active_until, conditions, parameters, region)
+--VALUES ('Stock Clearance', 3, 'CLEARANCE_DISCOUNT', '2025-10-15', '2025-10-25', '{"category":"Electronics"}', '{"clearanceDiscount":20}', 'IN');
 --
--- -- Products
--- INSERT INTO products (id, product_code, product_name, base_price, currency, product_category, available_stock)
--- VALUES
--- (1, 'iphone17', 'iPhone 17', 150000, 'INR', 'Electronics', 100),
--- (2, 'sweater2025', 'Winter Sweater', 2500, 'INR', 'Clothing', 200),
--- (3, 'airpodsmax', 'AirPods Max', 45000, 'INR', 'Electronics', 50);
+---- 4. New Product Introduction Strategy
+--INSERT INTO rules (rule_name, priority, strategy_key, active_from, active_until, conditions, parameters, region)
+--VALUES ('New Launch Offer', 4, 'NEW_PRODUCT_INTRO', '2025-11-01', '2025-12-15', '{"category":"Gadgets"}', '{"introDiscount":8}', 'IN');
 --
--- -- Customers
--- INSERT INTO customers (id, name, tier, email, joined_at, metadata)
--- VALUES
--- (101, 'Omkar', 'GOLD', 'omkar@example.com', '2024-01-01 00:00:00', '{"region":"IN","hasPoints":true,"referred":true}'),
--- (102, 'Hrutwik', 'PRIME', 'hrutwik@example.com', '2023-12-15 00:00:00', '{"region":"IN","hasPoints":false,"referred":false}');
+---- 5. Volume Based Strategy
+--INSERT INTO rules (rule_name, priority, strategy_key, active_from, active_until, conditions, parameters, region)
+--VALUES ('Bulk Purchase Offer', 5, 'VOLUME_BASED_DISCOUNT', '2025-01-01', '2025-12-31', '{"minQuantity":5}', '{"volumeDiscount":12}', 'IN');
+--
+---- 6. Loyalty Strategy
+--INSERT INTO rules (rule_name, priority, strategy_key, active_from, active_until, conditions, parameters, region)
+--VALUES ('Loyalty Customer Offer', 6, 'LOYALTY_DISCOUNT', '2025-01-01', '2025-12-31', '{"customerType":"LOYAL"}', '{"loyaltyDiscount":10}', 'IN');
+--
+---- 7. Loyalty Points Strategy
+--INSERT INTO rules (rule_name, priority, strategy_key, active_from, active_until, conditions, parameters, region)
+--VALUES ('Loyalty Points Redemption', 7, 'LOYALTY_POINTS_DISCOUNT', '2025-01-01', '2025-12-31', '{"hasPoints":true}', '{"pointsValue":200}', 'IN');
+--
+---- 8. Membership Strategy
+--INSERT INTO rules (rule_name, priority, strategy_key, active_from, active_until, conditions, parameters, region)
+--VALUES ('Gold Membership Discount', 8, 'MEMBERSHIP_DISCOUNT', '2025-01-01', '2025-12-31', '{"tier":"GOLD"}', '{"membershipDiscount":15}', 'IN');
+--
+---- 9. Referral Strategy
+--INSERT INTO rules (rule_name, priority, strategy_key, active_from, active_until, conditions, parameters, region)
+--VALUES ('Referral Bonus', 9, 'REFERRAL_DISCOUNT', '2025-01-01', '2025-12-31', '{"referred":true}', '{"referralDiscount":5}', 'IN');
+--
+---- 10. Festival + Membership Combined Strategy (example composite rule)
+--INSERT INTO rules (rule_name, priority, strategy_key, active_from, active_until, conditions, parameters, region)
+--VALUES ('Diwali Gold Combo Offer', 10, 'FESTIVAL_MEMBERSHIP_COMBO', '2025-10-01', '2025-10-31', '{"tier":"GOLD","category":"Electronics"}', '{"comboDiscount":20}', 'IN');
+--
+--
+----
+---- -- Products
+---- INSERT INTO products (id, product_code, product_name, base_price, currency, product_category, available_stock)
+---- VALUES
+---- (1, 'iphone17', 'iPhone 17', 150000, 'INR', 'Electronics', 100),
+---- (2, 'sweater2025', 'Winter Sweater', 2500, 'INR', 'Clothing', 200),
+---- (3, 'airpodsmax', 'AirPods Max', 45000, 'INR', 'Electronics', 50);
+----
+---- -- Customers
+---- INSERT INTO customers (id, name, tier, email, joined_at, metadata)
+---- VALUES
+---- (101, 'Omkar', 'GOLD', 'omkar@example.com', '2024-01-01 00:00:00', '{"region":"IN","hasPoints":true,"referred":true}'),
+---- (102, 'Hrutwik', 'PRIME', 'hrutwik@example.com', '2023-12-15 00:00:00', '{"region":"IN","hasPoints":false,"referred":false}');
+
+
+-- -- 1. Payment Mode Offer
+-- INSERT INTO rules (
+--   rule_name, priority, strategy_key, active_from, active_until, parameters, region
+-- ) VALUES (
+--   'Payment Mode Offer',
+--   1,
+--   'PAYMENT_MODE',
+--   '2025-10-01',
+--   '2025-12-31',
+--   '{"creditCardDiscount": 8, "walletDiscount": 4, "cashDiscount": 2}',
+--   'IN'
+-- );
+
+-- -- 2. Behavioral Pricing Offer
+-- INSERT INTO rules (
+--   rule_name, priority, strategy_key, active_from, active_until, parameters, region
+-- ) VALUES (
+--   'Behavioral Pricing Offer',
+--   2,
+--   'BEHAVIORAL_PRICING',
+--   '2025-10-01',
+--   '2025-12-31',
+--   '{"returningCustomer": true, "loyaltyPoints": 1500, "abandonedCart": false}',
+--   'IN'
+-- );
+
+-- -- 3. Wholesale Bulk Discount 
+-- INSERT INTO rules (
+--   rule_name, priority, strategy_key, active_from, active_until, parameters, region
+-- ) VALUES (
+--   'Wholesale Bulk Discount',
+--   3,
+--   'WHOLESALE',
+--   '2025-10-01',
+--   '2025-12-31',
+--   '{}',
+--   'IN'
+-- );
+
+-- -- 4. Wholesale Discount - India
+-- INSERT INTO rules (
+--   rule_name, priority, strategy_key, active_from, active_until, parameters, region
+-- ) VALUES (
+--   'Wholesale Discount - India',
+--   3,
+--   'WHOLESALE',
+--   '2025-10-01',
+--   '2025-12-31',
+--   '{"wholesaleThreshold": 100, "wholesaleDiscount": 15}',
+--   'IN'
+-- );
+
+-- -- 5. Bundle Pricing Offer
+-- INSERT INTO rules (
+--   rule_name, priority, strategy_key, active_from, active_until, parameters, region
+-- ) VALUES (
+--   'Bundle Pricing Offer - India',
+--   4,
+--   'BUNDLE_PRICING',
+--   '2025-10-01',
+--   '2025-12-31',
+--   '{"minBundleSize": 3, "bundleDiscount": 10}',
+--   'IN'
+-- );
+
+-- -- 6. New Year Coupon Offer
+-- INSERT INTO rules (
+--   rule_name, priority, strategy_key, active_from, active_until, parameters, region
+-- ) VALUES (
+--   'New Year Coupon Offer',
+--   5,
+--   'COUPON',
+--   '2025-12-01',
+--   '2026-01-15',
+--   '{"discountPercent": 15, "validCoupon": "NY2026"}',
+--   'IN'
+-- );
+
+-- -- 7. Competitor Price Match
+-- INSERT INTO rules (
+--   rule_name, priority, strategy_key, active_from, active_until, parameters, region
+-- ) VALUES (
+--   'Competitor Price Match',
+--   6,
+--   'PRICE_MATCH',
+--   '2025-10-01',
+--   '2025-12-31',
+--   '{"competitorPrice": 890.50}',
+--   'IN'
+-- );
+
+-- -- 8. Competitor Pricing Adjustment
+-- INSERT INTO rules (
+--   rule_name, priority, strategy_key, active_from, active_until, parameters, region
+-- ) VALUES (
+--   'Competitor Pricing Adjustment',
+--   7,
+--   'COMPETITOR_PRICING',
+--   '2025-10-01',
+--   '2025-12-31',
+--   '{"competitorAdjustment": 5, "adjustmentType": "PERCENT"}',
+--   'IN'
+-- );
+
+-- -- 9. Dynamic Demand Pricing
+-- INSERT INTO rules (
+--   rule_name, priority, strategy_key, active_from, active_until, parameters, region
+-- ) VALUES (
+--   'Dynamic Demand Pricing Configurable',
+--   8,
+--   'DYNAMIC_DEMAND',
+--   '2025-10-01',
+--   '2025-12-31',
+--   '{"demandLevel": "MEDIUM", "highMultiplier": 1.30, "mediumMultiplier": 1.15, "lowMultiplier": 0.85}',
+--   'GLOBAL'
+-- );
+
+-- -- 10. Time Decay Pricing Strategy
+-- INSERT INTO rules (
+--   rule_name, priority, strategy_key, active_from, active_until, parameters, region
+-- ) VALUES (
+--   'Time Decay Pricing Strategy',
+--   9,
+--   'TIME_DECAY',
+--   '2025-01-01',
+--   '2026-01-01',
+--   '{"createdTime": "2025-08-01T00:00:00", "decayRate": 1.5}',
+--   'GLOBAL'
+-- );
+
+-- -- 11. Last Minute Dynamic Pricing
+-- INSERT INTO rules (
+--   rule_name, priority, strategy_key, active_from, active_until, parameters, region
+-- ) VALUES (
+--   'Last Minute Dynamic Pricing',
+--   10,
+--   'LAST_MINUTE',
+--   '2025-10-01',
+--   '2025-12-31',
+--   '{"eventTime": "2025-12-31T18:00:00", "thresholdHours": 24, "surchargePercent": 20}',
+--   'GLOBAL'
+-- );
+
+-- -- 12. Early Bird Discount
+-- INSERT INTO rules (
+--   rule_name, priority, strategy_key, active_from, active_until, parameters, region
+-- ) VALUES (
+--   'Early Bird Discount',
+--   11,
+--   'EARLY_BIRD',
+--   '2025-10-01',
+--   '2025-12-31',
+--   '{"eventTime": "2025-12-31T00:00:00", "minDays": 30, "discountPercent": 10}',
+--   'GLOBAL'
+-- );
+
+-- -- 13. Night Owl Discount
+-- INSERT INTO rules (
+--   rule_name, priority, strategy_key, active_from, active_until, parameters, region
+-- ) VALUES (
+--   'Night Owl Discount',
+--   12,
+--   'TIME_BASED',
+--   '2025-10-01',
+--   '2025-12-31',
+--   '{"startHour":22,"endHour":6,"discountPercent":5}',
+--   'GLOBAL'
+-- );
+
+-- -- 14–16. Geo Demand Pricing Variants
+-- INSERT INTO rules (
+--   rule_name, priority, strategy_key, active_from, active_until, conditions, parameters, region
+-- ) VALUES
+-- ('Geo Demand Pricing - Metro', 14, 'GEO_DEMAND', '2025-10-01', '2025-12-31', '{"region":"METRO"}', '{"demandFactor":1.20}', 'IN'),
+-- ('Geo Demand Pricing - Tier 2', 15, 'GEO_DEMAND', '2025-10-01', '2025-12-31', '{"region":"TIER2"}', '{"demandFactor":1.05}', 'IN'),
+-- ('Geo Demand Pricing - Rural', 16, 'GEO_DEMAND', '2025-10-01', '2025-12-31', '{"region":"RURAL"}', '{"demandFactor":0.90}', 'IN');
+
+-- -- 17–19. Regional Pricing Rules
+-- INSERT INTO rules (
+--   rule_name, priority, strategy_key, active_from, active_until, conditions, parameters, region
+-- ) VALUES
+-- ('Regional Pricing - Metro', 17, 'REGIONAL_PRICING', '2025-10-01', '2025-12-31',
+--  '{"region":"METRO"}', '{"regionMultiplier":1.10}', 'IN'),
+-- ('Regional Pricing - Urban', 18, 'REGIONAL_PRICING', '2025-10-01', '2025-12-31',
+--  '{"region":"URBAN"}', '{"regionMultiplier":1.05}', 'IN'),
+-- ('Regional Pricing - Rural', 19, 'REGIONAL_PRICING', '2025-10-01', '2025-12-31',
+--  '{"region":"RURAL"}', '{"regionMultiplier":0.90}', 'IN');

@@ -9,17 +9,23 @@ import java.util.Map;
 
 @Component
 public class BundlePricingStrategy implements PricingStrategy {
-	@Override
-	public BigDecimal applyStrategy(List<ItemDTO> items, Map<String, Object> parameters) {
-		BigDecimal total = (BigDecimal) parameters.get("baseTotal");
-		if (items.size() >= 3) {
-			return total.subtract(total.multiply(BigDecimal.valueOf(10)).divide(BigDecimal.valueOf(100)));
-		}
-		return total;
-	}
 
-	@Override
-	public String getStrategyKey() {
-		return "BUNDLE_PRICING";
-	}
+    @Override
+    public BigDecimal applyStrategy(List<ItemDTO> items, Map<String, Object> parameters) {
+        BigDecimal total = (BigDecimal) parameters.get("baseTotal");
+
+         int minBundleSize = Integer.parseInt(parameters.getOrDefault("minBundleSize", "3").toString());
+        BigDecimal discountPercent = new BigDecimal(parameters.getOrDefault("bundleDiscount", "10").toString());
+
+        if (items.size() >= minBundleSize) {
+            return total.subtract(total.multiply(discountPercent).divide(BigDecimal.valueOf(100)));
+        }
+
+        return total;
+    }
+
+    @Override
+    public String getStrategyKey() {
+        return "BUNDLE_PRICING";
+    }
 }

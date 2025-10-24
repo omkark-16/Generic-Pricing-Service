@@ -12,33 +12,22 @@ public class PaymentModeStrategy implements PricingStrategy {
 
 	@Override
 	public BigDecimal applyStrategy(List<ItemDTO> items, Map<String, Object> parameters) {
-		String paymentMode = parameters.getOrDefault("paymentMode", "").toString().toUpperCase();
-		BigDecimal total = (BigDecimal) parameters.get("baseTotal");
+	    String paymentMode = parameters.getOrDefault("paymentMode", "").toString().toUpperCase();
+	    BigDecimal total = (BigDecimal) parameters.get("baseTotal");
 
-		BigDecimal adjustmentPercent = BigDecimal.ZERO;
+	    BigDecimal discountPercent = BigDecimal.ZERO;
 
-		switch (paymentMode) {
-		case "CREDIT_CARD":
-			adjustmentPercent = BigDecimal.valueOf(2);
-			total = total.add(total.multiply(adjustmentPercent).divide(BigDecimal.valueOf(100)));
-			break;
+	    if (paymentMode.equals("CREDIT_CARD")) {
+	        discountPercent = new BigDecimal(parameters.getOrDefault("creditCardDiscount", "5").toString());
+	    } else if (paymentMode.equals("WALLET")) {
+	        discountPercent = new BigDecimal(parameters.getOrDefault("walletDiscount", "3").toString());
+	    } else if (paymentMode.equals("CASH")) {
+	        discountPercent = new BigDecimal(parameters.getOrDefault("cashDiscount", "1").toString());
+	    }
 
-		case "WALLET":
-			adjustmentPercent = BigDecimal.valueOf(5);
-			total = total.subtract(total.multiply(adjustmentPercent).divide(BigDecimal.valueOf(100)));
-			break;
-
-		case "CASH":
-			adjustmentPercent = BigDecimal.valueOf(1);
-			total = total.subtract(total.multiply(adjustmentPercent).divide(BigDecimal.valueOf(100)));
-			break;
-
-		default:
-			break;
-		}
-
-		return total;
+	    return total.subtract(total.multiply(discountPercent).divide(BigDecimal.valueOf(100)));
 	}
+
 
 	@Override
 	public String getStrategyKey() {
