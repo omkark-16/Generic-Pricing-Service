@@ -12,9 +12,17 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class ItemDTO {
 
-	
-	
-    public ItemDTO(@NotBlank(message = "Product ID is mandatory") String productId,
+	@NotBlank(message = "Product ID is mandatory")
+	private String productId;
+
+	@NotBlank(message = "Product name is mandatory")
+	private String productName;
+
+	@NotNull(message = "Quantity is mandatory")
+	@Min(value = 1, message = "Quantity must be at least 1")
+	private Integer quentity;
+
+	public ItemDTO(@NotBlank(message = "Product ID is mandatory") String productId,
 			@NotBlank(message = "Product name is mandatory") String productName,
 			@NotNull(message = "Quantity is mandatory") @Min(value = 1, message = "Quantity must be at least 1") Integer quentity) {
 		super();
@@ -22,8 +30,9 @@ public class ItemDTO {
 		this.productName = productName;
 		this.quentity = quentity;
 	}
-    
-    public ItemDTO() {};
+
+	public ItemDTO() {
+	};
 
 	public String getProductId() {
 		return productId;
@@ -49,13 +58,4 @@ public class ItemDTO {
 		this.quentity = quentity;
 	}
 
-	@NotBlank(message = "Product ID is mandatory")
-    private String productId;
-
-    @NotBlank(message = "Product name is mandatory")
-    private String productName;
-
-    @NotNull(message = "Quantity is mandatory")
-    @Min(value = 1, message = "Quantity must be at least 1")
-    private Integer quentity;
 }

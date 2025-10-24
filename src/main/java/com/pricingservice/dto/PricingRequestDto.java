@@ -16,6 +16,42 @@ public class PricingRequestDto {
 	@NotBlank(message = "Customer ID cannot be blank")
 	private String customerId;
 
+	@NotBlank(message = "Region cannot be blank")
+	private String region;
+
+	@NotBlank(message = "Category cannot be blank")
+	private String category;
+
+	@NotBlank(message = "Payment mode cannot be blank")
+	private String paymentMode;
+
+	@NotEmpty(message = "Items list cannot be empty")
+	@Valid
+	private List<ItemDTO> items;
+
+	@NotNull(message = "Request time cannot be null")
+	private LocalDateTime requestTime;
+	private boolean referred;
+	private boolean newLaunchOffer;
+
+	public PricingRequestDto(@NotBlank(message = "Customer ID cannot be blank") String customerId,
+			@NotBlank(message = "Region cannot be blank") String region,
+			@NotBlank(message = "Category cannot be blank") String category,
+			@NotBlank(message = "Payment mode cannot be blank") String paymentMode,
+			@NotEmpty(message = "Items list cannot be empty") @Valid List<ItemDTO> items,
+			@NotNull(message = "Request time cannot be null") LocalDateTime requestTime) {
+		super();
+		this.customerId = customerId;
+		this.region = region;
+		this.category = category;
+		this.paymentMode = paymentMode;
+		this.items = items;
+		this.requestTime = requestTime;
+	}
+
+	public PricingRequestDto() {
+	};
+
 	public String getCustomerId() {
 		return customerId;
 	}
@@ -63,44 +99,5 @@ public class PricingRequestDto {
 	public void setRequestTime(LocalDateTime requestTime) {
 		this.requestTime = requestTime;
 	}
-	
 
-	public PricingRequestDto(@NotBlank(message = "Customer ID cannot be blank") String customerId,
-			@NotBlank(message = "Region cannot be blank") String region,
-			@NotBlank(message = "Category cannot be blank") String category,
-			@NotBlank(message = "Payment mode cannot be blank") String paymentMode,
-			@NotEmpty(message = "Items list cannot be empty") @Valid List<ItemDTO> items,
-			@NotNull(message = "Request time cannot be null") LocalDateTime requestTime) {
-		super();
-		this.customerId = customerId;
-		this.region = region;
-		this.category = category;
-		this.paymentMode = paymentMode;
-		this.items = items;
-		this.requestTime = requestTime;
-	}
-	
-	public PricingRequestDto()
-	{};
-
-	@NotBlank(message = "Region cannot be blank")
-	private String region;
-
-	@NotBlank(message = "Category cannot be blank")
-	private String category;
-
-	@NotBlank(message = "Payment mode cannot be blank")
-	private String paymentMode;
-
-
-	@NotEmpty(message = "Items list cannot be empty")
-	@Valid
-	private List<ItemDTO> items;
-
-	@NotNull(message = "Request time cannot be null")
-	private LocalDateTime requestTime;
-	private boolean referred;
-	private boolean newLaunchOffer;
-
-	 
 }

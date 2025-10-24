@@ -1,5 +1,7 @@
 package com.pricingservice.service;
 
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 import com.pricingservice.dto.ItemDTO;
 import com.pricingservice.dto.PricingRequestDto;
@@ -38,6 +40,7 @@ public class PricingService {
 
 
     public PricingResponseDto calculateTotal(PricingRequestDto requestDto) {
+    	
         BigDecimal baseTotal = BigDecimal.ZERO;
 
         for (ItemDTO item : requestDto.getItems()) {
@@ -51,6 +54,19 @@ public class PricingService {
         if (rules.isEmpty()) {
             rules = ruleRepository.findGlobalActiveRules(LocalDateTime.now());
         }
+        
+        System.out.println("Region: " + requestDto.getRegion());
+        System.out.println("Fetched rules: " + rules.size());
+        for (Rules r : rules) {
+            System.out.println("Rule fetched: " + r.getRuleName() + " - " + r.getStrategyKey());
+        }
+
+        System.out.println("Available strategies: " + 
+            strategyFactory.getAllStrategies().stream()
+                .map(PricingStrategy::getStrategyKey)
+                .toList());
+
+        
         
         if (rules.isEmpty()) {
             throw new ProductNotFoundException("No active pricing rules found for region: " + requestDto.getRegion());
@@ -67,9 +83,9 @@ public class PricingService {
             if (strategy != null) {
                 Map<String, Object> parameters = parseParameters(rule.getParameters());
                 parameters.put("baseTotal", finalTotal);
-                parameters.put("isReferred", requestDto.isReferred());
-                parameters.put("newProductDiscount", requestDto.isNewLaunchOffer());
-
+//                parameters.put("isReferred", requestDto.isReferred());
+//                parameters.put("newProductDiscount", requestDto.isNewLaunchOffer());
+                parameters.put("paymentMode", requestDto.getPaymentMode());
                 BigDecimal discountedTotal = strategy.applyStrategy(requestDto.getItems(), parameters);
 
                 if (discountedTotal.compareTo(finalTotal) < 0) {
@@ -101,8 +117,8 @@ public class PricingService {
         response.setFinalTotal(finalTotal);
         response.setStrategyDetails(strategyDetails);
         response.setTotalDiscountGiven(totalDiscountGiven);
-        response.setReferred(requestDto.isReferred());
-        response.setNewLaunchOffer(requestDto.isNewLaunchOffer());
+//        response.setReferred(requestDto.isReferred());
+//        response.setNewLaunchOffer(requestDto.isNewLaunchOffer());
         response.setCalculatedAt(LocalDateTime.now());
 
         return response;
@@ -179,14 +195,24 @@ public class PricingService {
         Map<String, Object> map = new HashMap<>();
         if (paramString == null || paramString.isBlank()) return map;
 
-        String[] pairs = paramString.split(",");
-        for (String pair : pairs) {
-            String[] keyValue = pair.split("[:=]");
-            if (keyValue.length == 2) {
-                map.put(keyValue[0].trim(), keyValue[1].trim());
+        try {
+            ObjectMapper mapper = new ObjectMapper();
+            map = mapper.readValue(paramString, new TypeReference<Map<String, Object>>() {});
+        } catch (Exception e) {
+            // fallback to key=value parsing for backward compatibility
+            String[] pairs = paramString.split(",");
+            for (String pair : pairs) {
+                String[] keyValue = pair.split("[:=]");
+                if (keyValue.length == 2) {
+                    map.put(keyValue[0].trim(), keyValue[1].trim());
+                }
             }
         }
+
         return map;
     }
+
+    
+    
 
 }

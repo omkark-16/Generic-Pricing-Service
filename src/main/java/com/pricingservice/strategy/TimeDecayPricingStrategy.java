@@ -12,22 +12,37 @@ import java.util.Map;
 @Component
 public class TimeDecayPricingStrategy implements PricingStrategy {
 
-	@Override
-	public BigDecimal applyStrategy(List<ItemDTO> items, Map<String, Object> parameters) {
-		LocalDateTime createdTime = LocalDateTime
-				.parse(parameters.getOrDefault("createdTime", "2025-01-01T00:00:00").toString());
-		long daysElapsed = Duration.between(createdTime, LocalDateTime.now()).toDays();
+    @Override
+    public BigDecimal applyStrategy(List<ItemDTO> items, Map<String, Object> parameters) {
+        BigDecimal total = (BigDecimal) parameters.get("baseTotal");
 
-		BigDecimal decayRate = new BigDecimal(parameters.getOrDefault("decayRate", "1.0").toString());
-		BigDecimal total = (BigDecimal) parameters.get("baseTotal");
-		BigDecimal totalDiscount = total.multiply(decayRate).multiply(BigDecimal.valueOf(daysElapsed))
-				.divide(BigDecimal.valueOf(100));
+         LocalDateTime createdTime;
+        try {
+            createdTime = LocalDateTime.parse(parameters.getOrDefault("createdTime", "2025-01-01T00:00:00").toString());
+        } catch (Exception e) {
+            createdTime = LocalDateTime.now();
+        }
 
-		return total.subtract(totalDiscount);
-	}
+        long daysElapsed = Math.max(0, Duration.between(createdTime, LocalDateTime.now()).toDays());
 
-	@Override
-	public String getStrategyKey() {
-		return "TIME_DECAY";
-	}
+        BigDecimal decayRate = new BigDecimal(parameters.getOrDefault("decayRate", "1.0").toString());
+        BigDecimal totalDiscount = total.multiply(decayRate).multiply(BigDecimal.valueOf(daysElapsed))
+                .divide(BigDecimal.valueOf(100), BigDecimal.ROUND_HALF_UP);
+
+         BigDecimal maxDiscount = total.multiply(BigDecimal.valueOf(0.7)); 
+        if (totalDiscount.compareTo(maxDiscount) > 0) {
+            totalDiscount = maxDiscount;
+        }
+
+        BigDecimal finalPrice = total.subtract(totalDiscount);
+
+       
+
+        return finalPrice;
+    }
+
+    @Override
+    public String getStrategyKey() {
+        return "TIME_DECAY";
+    }
 }
