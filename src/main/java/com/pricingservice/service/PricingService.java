@@ -7,6 +7,7 @@ import com.pricingservice.dto.PricingResponseDto;
 import com.pricingservice.dto.StrategyDiscountDetailDTO;
 import com.pricingservice.entities.Product;
 import com.pricingservice.entities.Rules;
+import com.pricingservice.exception.ProductNotFoundException;
 import com.pricingservice.repository.ProductRepository;
 import com.pricingservice.repository.RuleRepository;
 import com.pricingservice.strategy.PricingStrategy;
@@ -41,8 +42,7 @@ public class PricingService {
 
         for (ItemDTO item : requestDto.getItems()) {
             Product product = productRepository.findByProductCode(item.getProductId())
-                    .orElseThrow(() -> new RuntimeException("Product not found: " + item.getProductId()));
-
+            		 .orElseThrow(() -> new ProductNotFoundException("Product not found: " + item.getProductId()));
             baseTotal = baseTotal.add(product.getBasePrice()
                     .multiply(BigDecimal.valueOf(item.getQuentity())));
         }
@@ -50,6 +50,10 @@ public class PricingService {
         List<Rules> rules = ruleRepository.findActiveRulesByRegion(requestDto.getRegion(), LocalDateTime.now());
         if (rules.isEmpty()) {
             rules = ruleRepository.findGlobalActiveRules(LocalDateTime.now());
+        }
+        
+        if (rules.isEmpty()) {
+            throw new ProductNotFoundException("No active pricing rules found for region: " + requestDto.getRegion());
         }
 
         rules.sort(Comparator.comparing(Rules::getPriority));
