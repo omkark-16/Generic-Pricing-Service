@@ -33,5 +33,7 @@ public class PricingRequestDto {
 
 	@NotNull(message = "Request time cannot be null")
 	private LocalDateTime requestTime;
+	private boolean referred;
+	private boolean newLaunchOffer;
 
 }

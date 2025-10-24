@@ -23,7 +23,9 @@ public class PricingResponseDto {
     private String customerId;
     private BigDecimal baseTotal;
     private BigDecimal finalTotal;
-    private List<StrategyDiscountDetailDTO> strategyDetails; // Detailed list
-    private BigDecimal totalDiscountGiven; // Sum of all discount amounts
+    private List<StrategyDiscountDetailDTO> strategyDetails;
+    private BigDecimal totalDiscountGiven;
+    private boolean referred;
+    private boolean newLaunchOffer;
     private LocalDateTime calculatedAt;
 }
