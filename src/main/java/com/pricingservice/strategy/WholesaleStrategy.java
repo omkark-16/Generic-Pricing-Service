@@ -18,14 +18,18 @@ public class WholesaleStrategy implements PricingStrategy {
 		}
 
 		BigDecimal total = (BigDecimal) parameters.get("baseTotal");
-		if (totalQuantity.compareTo(BigDecimal.valueOf(100)) >= 0) {
-			return total.subtract(total.multiply(BigDecimal.valueOf(15)).divide(BigDecimal.valueOf(100)));
+		int minQuantity = (int) parameters.getOrDefault("minQuantity", 50);
+		double discountPercent = ((Number) parameters.getOrDefault("wholesaleDiscount", 20)).doubleValue();
+
+		if (totalQuantity.compareTo(BigDecimal.valueOf(minQuantity)) >= 0) {
+			BigDecimal discount = total.multiply(BigDecimal.valueOf(discountPercent)).divide(BigDecimal.valueOf(100));
+			return total.subtract(discount);
 		}
 		return total;
 	}
 
 	@Override
 	public String getStrategyKey() {
-		return "WHOLESALE";
+		return "WHOLESALE_DISCOUNT";
 	}
 }

@@ -12,7 +12,7 @@ public class FestivalDiscountStrategy implements PricingStrategy {
 
     @Override
     public BigDecimal applyStrategy(List<ItemDTO> items, Map<String, Object> parameters) {
-        BigDecimal discountPercent = new BigDecimal(parameters.getOrDefault("festivalDiscount", 10).toString());
+        BigDecimal discountPercent = new BigDecimal(parameters.getOrDefault("festivalDiscount", 5).toString());
         BigDecimal total = (BigDecimal) parameters.get("baseTotal");
         return total.subtract(total.multiply(discountPercent).divide(BigDecimal.valueOf(100)));
     }

@@ -20,7 +20,7 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 public class PricingResponseDto {
-    private String customerId;
+    private Long customerId;
     private BigDecimal baseTotal;
     private BigDecimal finalTotal;
     private List<StrategyDiscountDetailDTO> strategyDetails;

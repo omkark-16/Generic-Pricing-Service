@@ -14,17 +14,47 @@ public class TimeDecayPricingStrategy implements PricingStrategy {
 
 	@Override
 	public BigDecimal applyStrategy(List<ItemDTO> items, Map<String, Object> parameters) {
-		LocalDateTime createdTime = LocalDateTime
-				.parse(parameters.getOrDefault("createdTime", "2025-01-01T00:00:00").toString());
-		long daysElapsed = Duration.between(createdTime, LocalDateTime.now()).toDays();
+		// Base total from parameters
+		BigDecimal baseTotal = (BigDecimal) parameters.getOrDefault("baseTotal", BigDecimal.ZERO);
 
-		BigDecimal decayRate = new BigDecimal(parameters.getOrDefault("decayRate", "1.0").toString());
-		BigDecimal total = (BigDecimal) parameters.get("baseTotal");
-		BigDecimal totalDiscount = total.multiply(decayRate).multiply(BigDecimal.valueOf(daysElapsed))
+		// Base decay rate (e.g., 2%)
+		BigDecimal baseDecayRate = new BigDecimal(parameters.getOrDefault("decayRate", "1.0").toString());
+
+		// Strategy valid until date
+		LocalDateTime strategyDate = (LocalDateTime) parameters.get("validUntil");
+
+		// Current request time
+		LocalDateTime requestTime = (LocalDateTime) parameters.getOrDefault("requestTime", LocalDateTime.now());
+
+		// 🚫 If no expiry date → no strategy applies
+		if (strategyDate == null) {
+			return baseTotal;
+		}
+
+		// 📅 Calculate days before expiry
+		long daysBeforeExpiry = Duration.between(requestTime, strategyDate).toDays();
+
+		// ❌ Only apply strategy within last 10 days
+		if (daysBeforeExpiry > 10 || daysBeforeExpiry < 0) {
+			return baseTotal;
+		}
+
+
+		BigDecimal extraRate = BigDecimal.valueOf((10 - daysBeforeExpiry) * 1);
+		BigDecimal effectiveDecayRate = baseDecayRate.add(extraRate);
+
+		BigDecimal totalDiscount = baseTotal
+				.multiply(effectiveDecayRate)
 				.divide(BigDecimal.valueOf(100));
 
-		return total.subtract(totalDiscount);
+		BigDecimal finalTotal = baseTotal.subtract(totalDiscount);
+
+		return finalTotal.max(BigDecimal.ZERO);
 	}
+
+
+
+
 
 	@Override
 	public String getStrategyKey() {

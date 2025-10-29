@@ -11,7 +11,7 @@ import java.util.Map;
 public class MembershipStrategy implements PricingStrategy {
     @Override
     public BigDecimal applyStrategy(List<ItemDTO> items, Map<String, Object> parameters) {
-        String tier = parameters.getOrDefault("membershipTier", "REGULAR").toString();
+        String tier = parameters.getOrDefault("membershipDiscount", "REGULAR").toString();
         BigDecimal total = (BigDecimal) parameters.get("baseTotal");
         BigDecimal discountPercent = BigDecimal.ZERO;
 

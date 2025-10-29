@@ -19,7 +19,11 @@ public class GeoDemandStrategy implements PricingStrategy {
     }
 
     @Override
+//    public String getStrategyKey() {
+//        return "GEO_DEMAND";
+//    }
     public String getStrategyKey() {
-        return "GEO_DEMAND";
+        return "";
     }
+
 }

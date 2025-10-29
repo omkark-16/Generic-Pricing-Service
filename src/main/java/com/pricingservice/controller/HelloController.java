@@ -27,7 +27,7 @@ public class HelloController {
 	public ResponseEntity<PricingResponseDto> calculate(@Valid @RequestBody PricingRequestDto requestDTO) {
 
 		PricingResponseDto response = pricingService.calculateTotal(requestDTO);
-		return ResponseEntity.ok(response); // Returns 200 OK with the response body
+		return ResponseEntity.ok(response);
 
 	}
 

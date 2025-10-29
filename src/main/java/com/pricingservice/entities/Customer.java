@@ -31,7 +31,8 @@ public class Customer {
 	@Column(name = "joined_at")
 	private LocalDateTime joinedAt;
 
-	@Column(name = "metadata", columnDefinition = "jsonb")
+
+	@Column(name = "metadata",columnDefinition = "${json.column.type}")
 	private String metadata;
 
 }

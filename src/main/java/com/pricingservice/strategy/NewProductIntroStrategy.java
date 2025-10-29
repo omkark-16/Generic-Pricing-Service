@@ -11,7 +11,7 @@ import java.util.Map;
 public class NewProductIntroStrategy implements PricingStrategy {
     @Override
     public BigDecimal applyStrategy(List<ItemDTO> items, Map<String, Object> parameters) {
-        BigDecimal discountPercent = new BigDecimal(parameters.getOrDefault("newProductDiscount", 3).toString());
+        BigDecimal discountPercent = new BigDecimal(parameters.getOrDefault("introDiscount", 3).toString());
         BigDecimal total = (BigDecimal) parameters.get("baseTotal");
         return total.subtract(total.multiply(discountPercent).divide(BigDecimal.valueOf(100)));
     }

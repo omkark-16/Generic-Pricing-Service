@@ -37,8 +37,13 @@ public class BehavioralPricingStrategy implements PricingStrategy {
 		return total.subtract(total.multiply(discountPercent).divide(BigDecimal.valueOf(100)));
 	}
 
-	@Override
+//	@Override
+//	public String getStrategyKey() {
+//		return "BEHAVIORAL_PRICING";
+//	}
+		@Override
 	public String getStrategyKey() {
-		return "BEHAVIORAL_PRICING";
+//		return "BEHAVIORAL_PRICING";
+			return "1";
 	}
 }

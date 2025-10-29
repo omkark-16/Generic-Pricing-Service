@@ -1,0 +1,3 @@
+--INSERT INTO rules (rule_name, priority, strategy_key, active_from, active_until, conditions, parameters, region)
+--VALUES ('Diwali Electronics Offer', 1, 'FESTIVAL_DISCOUNT', '2025-10-01', '2025-10-31',
+--        '{"category":"electronics"}', '{"festivalDiscount":10}', 'IN');
